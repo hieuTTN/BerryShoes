@@ -1,5 +1,11 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.dto.request.ChiTietSpSearch;
+import com.example.berryshoes.dto.request.SearchDto;
+import com.example.berryshoes.dto.response.SanPhamChiTietSpecification;
+import com.example.berryshoes.dto.response.SanPhamSpecification;
+import com.example.berryshoes.entity.SanPham;
+import com.example.berryshoes.repository.SanPhamChiTietRepository;
 import com.example.berryshoes.repository.SanPhamRepository;
 import com.example.berryshoes.service.SanPhamChiTietService;
 import com.example.berryshoes.dto.request.SanPhamChiTietRequest;
@@ -17,6 +23,7 @@ import java.util.Optional;
 public class SanPhamChiTietController {
 
     private final SanPhamChiTietService sanPhamChiTietService;
+    private final SanPhamChiTietRepository sanPhamChiTietRepository;
     private final SanPhamRepository sanPhamRepository;
 
     // Lấy tất cả chi tiết sản phẩm
@@ -59,5 +66,13 @@ public class SanPhamChiTietController {
     public ResponseEntity<Void> deleteSanPhamChiTiet(@PathVariable Integer id) {
         sanPhamChiTietService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @PostMapping("/public/loc-chi-tiet-san-pham-list")
+    public ResponseEntity<?> locSanPhamChiTiet(@RequestBody ChiTietSpSearch search) {
+        SanPhamChiTietSpecification sp = new SanPhamChiTietSpecification(search.getThuongHieuId(), search.getChatLieuId(), search.getDeGiayId(), search.getMauSacId(), search.getKichThuocId());
+        List<SanPhamChiTiet> sanPhamList = sanPhamChiTietRepository.findAll(sp);
+        return ResponseEntity.ok(sanPhamList);
     }
 }

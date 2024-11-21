@@ -7,6 +7,7 @@ import com.example.berryshoes.entity.*;
 import com.example.berryshoes.exception.MessageException;
 import com.example.berryshoes.ghn.GhnClient;
 import com.example.berryshoes.repository.*;
+import com.example.berryshoes.utils.MailService;
 import com.example.berryshoes.utils.UserUltis;
 import com.example.berryshoes.vnpay.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,6 +54,15 @@ public class HoaDonController {
 
     @Autowired
     private PhuongThucThanhToanRepository phuongThucThanhToanRepository;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private KhachHangRepository khachHangRepository;
+
+    @Autowired
+    private SanPhamChiTietRepository sanPhamChiTietRepository;
 
 
     @PostMapping("/update-trang-thai")
@@ -232,6 +242,9 @@ public class HoaDonController {
             hoaDonChiTiet.setGiaSanPham(new BigDecimal(g.getSanPhamChiTiet().getGiaTien()));
             hoaDonChiTietRepository.save(hoaDonChiTiet);
         }
+        mailService.sendMailHtml(khachHang.getEmail(), "Đặt hàng thành công",
+                "Cảm ơn bạn đã đặt hàng trên website của chúng tôi<br>" +
+                        "Mã đơn hàng của bạn là: "+hoaDon.getMaHoaDon());
         return hoaDon;
     }
 
@@ -241,4 +254,72 @@ public class HoaDonController {
         List<HoaDon> hoaDons = hoaDonRepository.findAllByKhachHang(khachHang.getId());
         return new ResponseEntity<>(hoaDons, HttpStatus.OK);
     }
+
+    @GetMapping("/hoa-don-cho")
+    public ResponseEntity<?> getHoaDonCho(HttpServletRequest request){
+        List<HoaDon> hoaDons = hoaDonRepository.hoaDonCho();
+        return new ResponseEntity<>(hoaDons, HttpStatus.OK);
+    }
+
+    @PostMapping("/tao-hoa-don-cho")
+    public ResponseEntity<?> taoHoaDonCho(HttpServletRequest request){
+        NhanVien nhanVien = userUltis.getLoggedInNhanVien(request);
+        Long demHoaDonCho = hoaDonRepository.demHoaDonCho();
+        if(demHoaDonCho > 4){
+            throw new MessageException("Đã có "+demHoaDonCho+" hóa đơn chờ, không tạo thêm");
+        }
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setMaHoaDon(String.valueOf(System.currentTimeMillis()));
+        hoaDon.setLoaiHoaDon(false);
+        hoaDon.setTrangThai(1);
+        hoaDon.setNhanVien(nhanVien);
+        hoaDon.setNgayTao(new Timestamp(System.currentTimeMillis()));
+        hoaDon.setNguoiTao(nhanVien.getHoVaTen());
+        hoaDon.setTongTien(new BigDecimal(0));
+        hoaDon.setDaThanhToan(false);
+        hoaDonRepository.save(hoaDon);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/cap-nhat-khach-hang")
+    public ResponseEntity<?> capNhatKhachHang(@RequestParam Integer idKhachHang, @RequestParam Integer idHoaDon){
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        Optional<KhachHang> khachHang = khachHangRepository.findById(idKhachHang);
+        if(khachHang.isEmpty()){
+            hoaDon.setKhachHang(null);
+        }
+        else{
+            hoaDon.setKhachHang(khachHang.get());
+        }
+        HoaDon h = hoaDonRepository.save(hoaDon);
+        return new ResponseEntity<>(h,HttpStatus.OK);
+    }
+
+    @GetMapping("/find-by-id")
+    public ResponseEntity<?> findById(@RequestParam Integer id){
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        return new ResponseEntity<>(hoaDon,HttpStatus.OK);
+    }
+
+    @PostMapping("/xac-nhan-dat-tai-quay")
+    public ResponseEntity<?> xacNhanDatHang(@RequestParam Integer idHoaDon){
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        Double tongTien = 0D;
+        for(HoaDonChiTiet hc : hoaDon.getHoaDonChiTiets()){
+            hc.getSanPhamChiTiet().setSoLuong(hc.getSanPhamChiTiet().getSoLuong() - hc.getSoLuong());
+            sanPhamChiTietRepository.save(hc.getSanPhamChiTiet());
+            tongTien += hc.getSoLuong() * hc.getSanPhamChiTiet().getGiaTien();
+        }
+        hoaDon.setTrangThai(8);
+        hoaDon.setTongTien(new BigDecimal(tongTien));
+        HoaDon h = hoaDonRepository.save(hoaDon);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/xoa-don-cho")
+    public ResponseEntity<?> xoaDonCho(@RequestParam Integer idHoaDon){
+        hoaDonRepository.deleteById(idHoaDon);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

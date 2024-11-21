@@ -13,11 +13,11 @@ import QuenMatKhau from "../page/quenmatkhau";
 
 const publicRoutes = [
     {path: "/login", component: LoginPage, layout: layoutLogin },
-    {path: "/", component: Home },
-    {path: "/chitietsanpham", component: ChiTietSanPham },
-    {path: "/giohang", component: GioHang },
-    {path: "/taikhoan", component: TaiKhoan },
-    {path: "/payment", component: Payment },
+    {path: "/", component: Home},
+    {path: "/chitietsanpham", component: ChiTietSanPham  },
+    {path: "/giohang", component: GioHang, authen:true  },
+    {path: "/taikhoan", component: TaiKhoan, authen:true  },
+    {path: "/payment", component: Payment, authen:true  },
     {path: "/product", component: Product },
     {path: "/regis", component: DangKy },
     {path: "/forgot", component: QuenMatKhau },

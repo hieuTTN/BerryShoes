@@ -6,6 +6,9 @@ import { getMethod, deleteMethod ,uploadSingleFile, postMethod} from '../../serv
 import Swal from 'sweetalert2';
 import { formatMoney } from '../../services/money';
 import Select from 'react-select';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
 
 
 var size = 8
@@ -141,6 +144,18 @@ const AdminDonHang = ()=>{
         setLichSuHoaDon(result)
     }
 
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(items);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        const excelBuffer = XLSX.write(workbook, {
+          bookType: 'xlsx',
+          type: 'array',
+        });
+        const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(blob, `data.xlsx`);
+      };
+
     return (
         <>
             <div class="headerpageadmin d-flex justify-content-between align-items-center p-3 bg-light border">
@@ -160,6 +175,7 @@ const AdminDonHang = ()=>{
                     </div>
                     <button onClick={()=>locDonHang()} class="btn btn-primary ms-2"><i className='fa fa-filter'></i> Lọc</button>
                     <a href='add-product' class="btn btn-primary ms-2"><i className='fa fa-plus'></i></a>
+                    <a href='#' onClick={()=>exportToExcel()} class="btn btn-primary ms-2"><i className='fa fa-excel-o'></i> xuất file</a>
                 </div>
             </div>
             <div class="tablediv">
@@ -179,6 +195,7 @@ const AdminDonHang = ()=>{
                                 <th>Tổng tiền</th>
                                 <th>Phí vận chuyển</th>
                                 <th>Loại hóa đơn</th>
+                                <th>Thanh toán</th>
                                 <th>Ngày tạo</th>
                                 <th>Trạng thái</th>
                                 <th class="sticky-col">Cập nhật trạng thái</th>
@@ -188,7 +205,7 @@ const AdminDonHang = ()=>{
                             {items.map((item=>{
                                     return  <tr>
                                     <td onClick={()=>getChiTietDonHang(item)} data-bs-toggle="modal" data-bs-target="#addcate" className='pointer' style={{color:'blue', fontWeight:'bold'}}>{item.id}</td>
-                                    <td>{item.maHoaDon}</td>
+                                    <td onClick={()=>getChiTietDonHang(item)} data-bs-toggle="modal" data-bs-target="#addcate" className='pointer' style={{color:'blue', fontWeight:'bold'}}>{item.maHoaDon}</td>
                                     <td>{item.tenKhachHang}</td>
                                     <td>{item.email}</td>
                                     <td>{item.soDienThoai}</td>
@@ -196,6 +213,7 @@ const AdminDonHang = ()=>{
                                     <td>{formatMoney(item.tongTien)}</td>
                                     <td>{formatMoney(item.phiVanChuyen)}</td>
                                     <td>{item.loaiHoaDon == true?'Đặt hàng online':'Thanh toán tại quầy'}</td>
+                                    <td>{item.daThanhToan == true?'Đã thanh toán':'Thanh toán khi nhận hàng'}</td>
                                     <td>{item.ngayTao}</td>
                                     <td>{getTrangThai(item.trangThai, trangThai)}</td>
                                     <td>
@@ -261,7 +279,7 @@ const AdminDonHang = ()=>{
                         <tbody>
                         {chiTietDonHang.map((item, index)=>{
                             return <tr>
-                            <td><img src={item.sanPhamChiTiet.anhs.length > 0?item.sanPhamChiTiet.anhs[0].tenAnh:''} className='imgdetailhd'/></td>
+                            <td><img src={item.sanPhamChiTiet.anhs.length > 0?item.sanPhamChiTiet.anhs[0].tenAnh:''} className='imgtable'/></td>
                             <td>{item.sanPhamChiTiet.sanPham.tenSanPham}</td>
                             <td>{formatMoney(item.giaSanPham)}</td>
                             <td>{item.soLuong}</td>

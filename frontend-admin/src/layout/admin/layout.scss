@@ -58,7 +58,6 @@
     font-size: 1.5rem;
     cursor: pointer;
 }
-
 .badge {
     font-size: 0.75rem;
     padding: 0.25em 0.4em;
@@ -320,7 +319,7 @@
     width: 100px;
 }
 .blue-text{
-    color: blue;
+    color: blue !important;
     font-weight: bold;
 }
 .searchdivadmin{
@@ -773,4 +772,127 @@
 
 .imgdetailacc {
     width: 100px;
+}
+.danhsachsptaiquay{
+    height: 400px;
+    overflow: scroll;
+}
+.boloctaiquay{
+    margin-top: 30px;
+    margin-bottom: 40px;
+    border: 1px solid gray;
+    padding: 30px;
+    font-size: 14px !important;
+}
+@media screen and (min-width: 992px) {
+    .col-lg-20p {
+        width: 20%;
+    }
+}
+.listsize {
+    margin-top: 10px;
+}
+
+.colorcdiv{
+    display: block;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #fff;
+    min-width: 100%;
+    text-align: center;
+    padding: 5px;
+    font-weight: 500;
+    border: 1px solid #bfbfbf;
+    border-radius: 5px ;
+}
+.hetsp{
+    background-color: #d6d6d6;
+    cursor: auto;
+}
+.activecolor{
+    border: 2px solid red !important;
+}
+.btnthemgiohang{
+    width: 50%;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px #00000029;
+    border: 2px solid #FF5722;
+    color: #FF5722;
+    border-radius: 10px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.btnthemgiohang i{
+    width: 22px;
+    height: 22px;
+    fill: #00483d;
+}
+.disablethemgh{
+    background-color: #b0b0b0;
+    border: 1px solid #495057;
+    color: #fff;
+}
+.dssanphamhoadon{
+    margin-top: 20px;
+    position: relative;
+}
+.mahdcho{
+    margin-left: 20px;
+}
+.btnthemsanphamhd{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+}
+.divrong{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center;    /* Căn giữa theo chiều dọc */
+    height: 300px;          /* Chiều cao của thẻ div */
+}
+.imganhgiohangrong{
+    max-width: 100%;        /* Đảm bảo ảnh không vượt quá kích thước div */
+    max-height: 100%; 
+}
+.top30{
+    margin-top: 30px;
+}
+.dsChitietsp{
+    height: 500px;
+    overflow: scroll;
+}
+.inputtaiquay{
+    width: 70px;
+    border: 1px solid gray !important;
+    border-radius: 5px;
+}
+.square {
+    display: inline-block; /* Đảm bảo span là khối nội tuyến */
+    width: 24px;          /* Chiều rộng */
+    height: 12px;         /* Chiều cao */
+    text-align: center;   /* Căn giữa nội dung theo chiều ngang */
+    line-height: 24px;    /* Căn giữa nội dung theo chiều dọc */
+    color: white;         /* Màu chữ */
+    font-size: 14px;      /* Kích thước chữ */
+    font-weight: bold;    /* Đậm chữ */
+  }
+.btnthemhdct{
+    margin-left: 20px;
+}
+.divlistspct{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.card{
+    padding-left: 20px;
+}
+.solieudoanhthu{
+    font-weight: bold;
 }

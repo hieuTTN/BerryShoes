@@ -60,4 +60,33 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
 
     @Query("select h from HoaDon h where h.trangThai = ?1")
     Page<HoaDon> findByTrangThai(Integer trangthai, Pageable pageable);
+
+    @Query("select count(h.id) from HoaDon h where h.trangThai = 1 and h.loaiHoaDon = false")
+    Long demHoaDonCho();
+
+    @Query("select count(h.id) from HoaDon h where h.trangThai = ?1")
+    Long demHoaDonTrangThai(Integer trangThai);
+
+    @Query("select h from HoaDon h where h.trangThai = 1 and h.loaiHoaDon = false")
+    List<HoaDon> hoaDonCho();
+
+    @Query(value = "SELECT COUNT(*) AS SoLuongDonHang FROM HoaDon\n" +
+            "WHERE CONVERT(DATE, ngayTao) = ?1", nativeQuery = true)
+    public Long soDonHomNay(Date date);
+
+    @Query(value = "SELECT COUNT(*) AS SoLuongDonHang\n" +
+            "FROM HoaDon\n" +
+            "WHERE ngayTao >= DATEADD(DAY, -7, CAST(GETDATE() AS DATE))\n" +
+            "  AND ngayTao < CAST(GETDATE() AS DATE)", nativeQuery = true)
+    public Long soDonTuanNay();
+
+    @Query(value = "SELECT COUNT(*) AS SoLuongDonHang\n" +
+            "FROM HoaDon\n" +
+            "WHERE Month(ngayTao) = MONTH(GETDATE()) and year(ngayTao) = YEAR(GETDATE())", nativeQuery = true)
+    public Long soDonThangNay();
+
+    @Query(value = "SELECT sum(tongTien) AS SoLuongDonHang\n" +
+            "FROM HoaDon\n" +
+            "WHERE Month(ngayTao) = ?1 and year(ngayTao) = ?2 and trangThai = 8", nativeQuery = true)
+    Double tinhDoanhThuAdmin(int i, Integer nam);
 }

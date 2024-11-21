@@ -77,7 +77,7 @@ function Header({ children }){
                         </li>
                     </ul>
                 </li>
-                <li className={isActive(["/admin/don-hang", "/admin/add-don-hang"])}>
+                <li className={isActive(["/admin/don-hang", "/admin/dat-tai-quay"])}>
                     <a href="#colstore" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa fa-list"></i> Quản lý đơn hàng
                     </a>
@@ -86,7 +86,7 @@ function Header({ children }){
                             <a href="don-hang" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách đơn hàng</a>
                         </li>
                         <li class="nav-item">
-                            <a href="add-don-hang" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Đặt hàng tại quầy</a>
+                            <a href="dat-tai-quay" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Đặt hàng tại quầy</a>
                         </li>
                     </ul>
                 </li>
@@ -102,6 +102,11 @@ function Header({ children }){
                             <a href="add-khuyen-mai" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Thêm phiếu giảm giá</a>
                         </li>
                     </ul>
+                </li>
+                <li className={isActive(["/admin/thong-ke"])}>
+                    <a href="thong-ke" class="text-white text-decoration-none">
+                        <i class="fa fa-bar-chart"></i> Thống kê
+                    </a>
                 </li>
                 <li>
                     <a href="#" onClick={logout} class="text-white text-decoration-none">

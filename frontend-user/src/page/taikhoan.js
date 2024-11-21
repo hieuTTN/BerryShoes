@@ -43,15 +43,15 @@ function TaiKhoan(){
                     aria-label="Vertical tabs example"
                     sx={{ borderRight: 1, borderColor: 'divider' }}>
 
-                    <Tab label="Địa chỉ" {...a11yProps(0)} />
-                    <Tab label="Đơn hàng" {...a11yProps(1)} />
+                    <Tab label="Đơn hàng" {...a11yProps(0)} />
+                    <Tab label="Địa chỉ" {...a11yProps(1)} />
                     <Tab label="Đổi mật khẩu" {...a11yProps(2)} />
                 </Tabs>
                 <TabPanel value={value} index={0} style={{width:"100%"}}>
-                    <DiaChi/>
+                  <DonHang/>
                 </TabPanel>
                 <TabPanel value={value} index={1} style={{width:"100%"}}>
-                  <DonHang/>
+                  <DiaChi/>
                 </TabPanel>
                 <TabPanel value={value} index={2} style={{width:"100%"}}>
                   <DoiMatKhau/>

@@ -55,6 +55,13 @@ public class SanPhamController {
         return ResponseEntity.ok(sanPhamList);
     }
 
+    @PostMapping("/public/loc-san-pham-list")
+    public ResponseEntity<?> locSanPham(@RequestBody SearchDto searchDto) {
+        SanPhamSpecification sanPhamSpecification = new SanPhamSpecification(searchDto.getIdThuongHieu(), searchDto.getSmall(), searchDto.getLarge(), searchDto.getIdDeGiay(), searchDto.getIdChatLieu());
+        List<SanPham> sanPhamList = sanPhamRepository.findAll(sanPhamSpecification);
+        return ResponseEntity.ok(sanPhamList);
+    }
+
     @GetMapping("/public/tim-theo-ten")
     public ResponseEntity<?> locSanPham(Pageable pageable, @RequestParam String search) {
         Page<SanPham> sanPhamList = sanPhamRepository.findByParam("%"+search+"%", pageable);

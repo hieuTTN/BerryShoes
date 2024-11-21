@@ -15,6 +15,8 @@ import AdminSanPhamChiTiet from '../page/admin/sanphamchitiet'
 import AdminDonHang from '../page/admin/donhang'
 import AdminPhieuGiamGia from '../page/admin/phieugiamgia'
 import AdminAddPhieuGiamGia from '../page/admin/addphieugiamgia'
+import AdminDatTaiQuay from '../page/admin/dattaiquay'
+import AdminThongKe from '../page/admin/thongke'
 
 //public
 import LoginPage from "../page/public/LoginPage";
@@ -40,6 +42,8 @@ const adminRoutes = [
     { path: "/admin/don-hang", component: AdminDonHang, layout: layoutAdmin },
     { path: "/admin/khuyen-mai", component: AdminPhieuGiamGia, layout: layoutAdmin },
     { path: "/admin/add-khuyen-mai", component: AdminAddPhieuGiamGia, layout: layoutAdmin },
+    { path: "/admin/dat-tai-quay", component: AdminDatTaiQuay, layout: layoutAdmin },
+    { path: "/admin/thong-ke", component: AdminThongKe, layout: layoutAdmin },
 ];
 
 

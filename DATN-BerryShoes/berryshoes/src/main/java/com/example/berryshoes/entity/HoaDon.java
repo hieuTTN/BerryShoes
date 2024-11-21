@@ -1,6 +1,7 @@
 package com.example.berryshoes.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Builder
 @Data
@@ -103,4 +105,7 @@ public class HoaDon {
     @Column(name = "TrangThai")
     private Integer trangThai;
 
+    @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties(value = {"hoaDon"})
+    private List<HoaDonChiTiet> hoaDonChiTiets;
 }
