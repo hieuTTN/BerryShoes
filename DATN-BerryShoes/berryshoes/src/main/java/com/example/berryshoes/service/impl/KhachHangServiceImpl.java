@@ -68,8 +68,15 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Override
     public void deleteKhachHang(Integer id) {
+
         if (khachHangRepository.existsById(id)) {
-            khachHangRepository.deleteById(id);
+            KhachHang khachHang = khachHangRepository.findById(id).get();
+            try {
+                khachHangRepository.deleteById(id);
+            }catch (Exception e){
+                khachHang.setTrangThai(0);
+                khachHangRepository.save(khachHang);
+            }
         } else {
             throw new RuntimeException("Khách hàng không tồn tại");
         }

@@ -1,4 +1,5 @@
 import layoutAdmin from "../layout/admin/Layout";
+import layoutNhanVien from "../layout/nhanvien/Layout";
 
 //admin
 import AdminUser from '../page/admin/user'
@@ -17,13 +18,30 @@ import AdminPhieuGiamGia from '../page/admin/phieugiamgia'
 import AdminAddPhieuGiamGia from '../page/admin/addphieugiamgia'
 import AdminDatTaiQuay from '../page/admin/dattaiquay'
 import AdminThongKe from '../page/admin/thongke'
+import AdminKhachHang from '../page/admin/khachhang'
+
+//nhanvien
+import EmployeeTrademark from '../page/nhanvien/trademark'
+import EmployeeProduct from '../page/nhanvien/product'
+import EmployeeAddProduct from '../page/nhanvien/addproduct'
+import EmployeeInvoice from '../page/nhanvien/order'
+import EmployeeDeGiay from '../page/nhanvien/degiay'
+import EmployeeChatLieu from '../page/nhanvien/chatlieu'
+import EmployeeKichCo from '../page/nhanvien/kichco'
+import EmployeeMauSac from '../page/nhanvien/mausac'
+import EmployeeSanPhamChiTiet from '../page/nhanvien/sanphamchitiet'
+import EmployeeDonHang from '../page/nhanvien/donhang'
+import EmployeeDatTaiQuay from '../page/nhanvien/dattaiquay'
+import EmployeekhachHang from '../page/nhanvien/khachhang'
 
 //public
 import LoginPage from "../page/public/LoginPage";
+import QuenMatKhau from '../page/public/quenmatkhau'
 
 const publicRoutes = [
     {path: "/", component: LoginPage},
     {path: "/login", component: LoginPage},
+    {path: "/forgot", component: QuenMatKhau},
 ];
 
 const adminRoutes = [
@@ -44,9 +62,25 @@ const adminRoutes = [
     { path: "/admin/add-khuyen-mai", component: AdminAddPhieuGiamGia, layout: layoutAdmin },
     { path: "/admin/dat-tai-quay", component: AdminDatTaiQuay, layout: layoutAdmin },
     { path: "/admin/thong-ke", component: AdminThongKe, layout: layoutAdmin },
+    { path: "/admin/khach-hang", component: AdminKhachHang, layout: layoutAdmin },
+];
+
+const nhanvienRoutes = [
+    { path: "/nhanvien/trademark", component: EmployeeTrademark, layout: layoutNhanVien },
+    { path: "/nhanvien/product", component: EmployeeProduct, layout: layoutNhanVien },
+    { path: "/nhanvien/add-product", component: EmployeeAddProduct, layout: layoutNhanVien },
+    { path: "/nhanvien/order", component: EmployeeInvoice, layout: layoutNhanVien },
+    { path: "/nhanvien/de-giay", component: EmployeeDeGiay, layout: layoutNhanVien },
+    { path: "/nhanvien/chat-lieu", component: EmployeeChatLieu, layout: layoutNhanVien },
+    { path: "/nhanvien/kich-co", component: EmployeeKichCo, layout: layoutNhanVien },
+    { path: "/nhanvien/mau-sac", component: EmployeeMauSac, layout: layoutNhanVien },
+    { path: "/nhanvien/sanphamchitiet", component: EmployeeSanPhamChiTiet, layout: layoutNhanVien },
+    { path: "/nhanvien/don-hang", component: EmployeeDonHang, layout: layoutNhanVien },
+    { path: "/nhanvien/dat-tai-quay", component: EmployeeDatTaiQuay, layout: layoutNhanVien },
+    { path: "/nhanvien/khach-hang", component: EmployeekhachHang, layout: layoutNhanVien },
 ];
 
 
 
 
-export {publicRoutes, adminRoutes};
+export {publicRoutes, adminRoutes,nhanvienRoutes};

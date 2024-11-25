@@ -56,6 +56,9 @@ public class AuthController {
         }
         else if(khachHang.isPresent()){
             if(passwordEncoder.matches(loginDto.getPassword(), khachHang.get().getMatKhau())){
+                if(khachHang.get().getTrangThai() == 0){
+                    throw new MessageException("Tài khoản đã bị khóa");
+                }
                 String token = jwtUtils.generateToken(loginDto.getEmail());
                 return new TokenDto(token, "ROLE_CUSTOMER");
             }

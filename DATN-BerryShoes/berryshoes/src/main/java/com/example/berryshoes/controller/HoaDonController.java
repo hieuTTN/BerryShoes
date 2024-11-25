@@ -96,6 +96,14 @@ public class HoaDonController {
         lichSuHoaDon.setNhanVien(nhanVien);
         lichSuHoaDon.setNgayTao(new Timestamp(System.currentTimeMillis()));
         lichSuHoaDonRepository.save(lichSuHoaDon);
+
+        if(trangThai == 6 || trangThai == 8){
+            List<HoaDonChiTiet> hoaDonChiTiets = hoaDon.get().getHoaDonChiTiets();
+            for(HoaDonChiTiet h : hoaDonChiTiets){
+                h.getSanPhamChiTiet().setSoLuong(h.getSoLuong() + h.getSanPhamChiTiet().getSoLuong());
+                sanPhamChiTietRepository.save(h.getSanPhamChiTiet());
+            }
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -130,7 +138,11 @@ public class HoaDonController {
         for(GioHang g : list){
             tong += g.getSoLuong() * g.getSanPhamChiTiet().getGiaTien();
         }
-
+        for(GioHang g : list){
+            if(g.getSanPhamChiTiet().getSoLuong() < g.getSoLuong()){
+                throw new MessageException("Số lượng sản phẩm "+g.getSanPhamChiTiet().getSanPham().getTenSanPham()+" - màu "+g.getSanPhamChiTiet().getMauSac().getTenMauSac()+" - size: "+g.getSanPhamChiTiet().getKichCo().getTenKichCo()+" chỉ còn: "+ g.getSanPhamChiTiet().getSoLuong());
+            }
+        }
         Double tienGiam = 0D;
         if(request.getPhieuGiamGia() != null){
             PhieuGiamGia phieuGiamGia = phieuGiamGiaRepository.findById(request.getPhieuGiamGia().getId()).get();
@@ -187,6 +199,9 @@ public class HoaDonController {
         Double tong = 0D;
         for(GioHang g : list){
             tong += g.getSoLuong() * g.getSanPhamChiTiet().getGiaTien();
+            if(g.getSanPhamChiTiet().getSoLuong() < g.getSoLuong()){
+                throw new MessageException("Số lượng sản phẩm "+g.getSanPhamChiTiet().getSanPham().getTenSanPham()+" - màu "+g.getSanPhamChiTiet().getMauSac().getTenMauSac()+" - size: "+g.getSanPhamChiTiet().getKichCo().getTenKichCo()+" chỉ còn: "+ g.getSanPhamChiTiet().getSoLuong());
+            }
         }
 
         Double tienGiam = 0D;
@@ -241,6 +256,11 @@ public class HoaDonController {
             hoaDonChiTiet.setSoLuong(g.getSoLuong());
             hoaDonChiTiet.setGiaSanPham(new BigDecimal(g.getSanPhamChiTiet().getGiaTien()));
             hoaDonChiTietRepository.save(hoaDonChiTiet);
+
+            g.getSanPhamChiTiet().setSoLuong(g.getSanPhamChiTiet().getSoLuong() - g.getSoLuong());
+            sanPhamChiTietRepository.save(g.getSanPhamChiTiet());
+            System.out.println("Số lượng bị trừ: "+ g.getSoLuong());
+            gioHangRepository.deleteById(g.getId());
         }
         mailService.sendMailHtml(khachHang.getEmail(), "Đặt hàng thành công",
                 "Cảm ơn bạn đã đặt hàng trên website của chúng tôi<br>" +
@@ -306,9 +326,16 @@ public class HoaDonController {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         Double tongTien = 0D;
         for(HoaDonChiTiet hc : hoaDon.getHoaDonChiTiets()){
+            if(hc.getSanPhamChiTiet().getSoLuong() < hc.getSoLuong()){
+                throw new MessageException("Số lượng sản phẩm "+hc.getSanPhamChiTiet().getSanPham().getTenSanPham()+" - màu "+hc.getSanPhamChiTiet().getMauSac().getTenMauSac()+" - size: "+hc.getSanPhamChiTiet().getKichCo().getTenKichCo()+" chỉ còn: "+ hc.getSanPhamChiTiet().getSoLuong());
+            }
+        }
+        for(HoaDonChiTiet hc : hoaDon.getHoaDonChiTiets()){
             hc.getSanPhamChiTiet().setSoLuong(hc.getSanPhamChiTiet().getSoLuong() - hc.getSoLuong());
             sanPhamChiTietRepository.save(hc.getSanPhamChiTiet());
             tongTien += hc.getSoLuong() * hc.getSanPhamChiTiet().getGiaTien();
+            hc.getSanPhamChiTiet().setSoLuong(hc.getSanPhamChiTiet().getSoLuong() - hc.getSoLuong());
+            sanPhamChiTietRepository.save(hc.getSanPhamChiTiet());
         }
         hoaDon.setTrangThai(8);
         hoaDon.setTongTien(new BigDecimal(tongTien));

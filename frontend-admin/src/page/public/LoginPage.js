@@ -54,7 +54,7 @@ import Swal from 'sweetalert2'
         await new Promise(resolve => setTimeout(resolve, 100));
         localStorage.setItem("token", result.token);
         await getNhanVien(result.token);
-        window.location.href = '/employee/employee'
+        window.location.href = '/nhanvien/don-hang'
       }
     }
   };

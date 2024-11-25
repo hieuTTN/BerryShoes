@@ -80,6 +80,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         role = "ROLE_EMPLOYEE";
                     }
                 }
+                System.out.println("role: "+role);
                 List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(email, null, authorities);

@@ -39,20 +39,15 @@ function Header({ children }){
         <nav id="sidebar">
             <div class="sidebar-header p-3 text-white">
             <i class="fa fa-bars pointer" id="iconbaradmin" onClick={openClose}></i>
-            ADIMIN
+            NHÂN VIÊN
             </div>
             <ul class="list-unstyled components">
-                <li className={isActive(["/admin/user"])}>
-                    <a href="user" class="text-white text-decoration-none">
-                        <i class="fa fa-user"></i> Tài khoản nhân viên
-                    </a>
-                </li>
-                <li className={isActive(["/admin/trademark"])}>
+                <li className={isActive(["/nhanvien/trademark"])}>
                     <a href="trademark" class="text-white text-decoration-none">
                         <i class="fa fa-list"></i> Quản lý thương hiệu
                     </a>
                 </li>
-                <li className={isActive(["/admin/product", "/admin/add-product","/admin/de-giay", "/admin/chat-lieu", "/admin/kich-co","/admin/mau-sac","/admin/sanphamchitiet"])}>
+                <li className={isActive(["/nhanvien/product", "/nhanvien/add-product","/nhanvien/de-giay", "/nhanvien/chat-lieu", "/nhanvien/kich-co","/nhanvien/mau-sac","/nhanvien/sanphamchitiet"])}>
                     <a href="#colproduct" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa fa-t-shirt"></i> Quản lý sản phẩm
                     </a>
@@ -77,7 +72,7 @@ function Header({ children }){
                         </li>
                     </ul>
                 </li>
-                <li className={isActive(["/admin/don-hang", "/admin/dat-tai-quay"])}>
+                <li className={isActive(["/nhanvien/don-hang", "/nhanvien/dat-tai-quay"])}>
                     <a href="#colstore" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
                         <i class="fa fa-list"></i> Quản lý đơn hàng
                     </a>
@@ -90,25 +85,7 @@ function Header({ children }){
                         </li>
                     </ul>
                 </li>
-                <li className={isActive(["/admin/khuyen-mai", "/admin/add-khuyen-mai"])}>
-                    <a href="#colkhuyenmai" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white text-decoration-none">
-                        <i class="fa fa-ticket"></i> Quản lý Khuyến mại
-                    </a>
-                    <ul class="collapse list-unstyleds" id="colkhuyenmai">
-                        <li class="nav-item">
-                            <a href="khuyen-mai" class="text-white text-decoration-none ps-4"><i class="fa fa-list"></i> Danh sách phiếu giảm giá</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="add-khuyen-mai" class="text-white text-decoration-none ps-4"><i class="fa fa-plus"></i> Thêm phiếu giảm giá</a>
-                        </li>
-                    </ul>
-                </li>
-                <li className={isActive(["/admin/thong-ke"])}>
-                    <a href="thong-ke" class="text-white text-decoration-none">
-                        <i class="fa fa-bar-chart"></i> Thống kê
-                    </a>
-                </li>
-                <li className={isActive(["/admin/khach-hang"])}>
+                <li className={isActive(["/nhanvien/khach-hang"])}>
                     <a href="khach-hang" class="text-white text-decoration-none">
                         <i class="fa fa-users"></i> Khách hàng
                     </a>
@@ -148,7 +125,7 @@ function Header({ children }){
 
 async function checkAdmin(){
     var token = localStorage.getItem("token");
-    var url = 'http://localhost:8080/api/admin/check-role-admin';
+    var url = 'http://localhost:8080/api/nhanvien/check-role-admin';
     const response = await fetch(url, {
         headers: new Headers({
             'Authorization': 'Bearer ' + token

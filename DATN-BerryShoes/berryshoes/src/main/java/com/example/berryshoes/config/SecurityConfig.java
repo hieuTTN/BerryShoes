@@ -35,8 +35,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/*/public/**").permitAll()
                         .requestMatchers("/api/*/user/**").hasAnyAuthority("ROLE_CUSTOMER")
-                        .requestMatchers("/api/*/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers("/api/*/all/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_CUSTOMER")
+                        .requestMatchers("/api/*/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_EMPLOYEE")
+                        .requestMatchers("/api/*/all/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_CUSTOMER", "ROLE_EMPLOYEE")
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
