@@ -207,14 +207,17 @@ public class HoaDonController {
         Double tienGiam = 0D;
         if(request.getPhieuGiamGia() != null){
             PhieuGiamGia phieuGiamGia = phieuGiamGiaRepository.findById(request.getPhieuGiamGia().getId()).get();
-            if(phieuGiamGia.getLoaiPhieu() == true){
-                tienGiam = Double.valueOf(phieuGiamGia.getGiaTriGiam());
-            }
-            else{
-                tienGiam = tong - tong * phieuGiamGia.getGiaTriGiam() / 100;
-                if(tienGiam > phieuGiamGia.getGiaTriGiamToiDa()){
-                    tienGiam = phieuGiamGia.getGiaTriGiamToiDa();
+            if(phieuGiamGia.getSoLuong() > 0){
+                if(phieuGiamGia.getLoaiPhieu() == true){
+                    tienGiam = Double.valueOf(phieuGiamGia.getGiaTriGiam());
                 }
+                else{
+                    tienGiam = tong - tong * phieuGiamGia.getGiaTriGiam() / 100;
+                    if(tienGiam > phieuGiamGia.getGiaTriGiamToiDa()){
+                        tienGiam = phieuGiamGia.getGiaTriGiamToiDa();
+                    }
+                }
+                phieuGiamGia.setSoLuong((short)(Integer.valueOf(phieuGiamGia.getSoLuong()) -1));
             }
         }
 
